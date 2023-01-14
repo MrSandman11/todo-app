@@ -1,5 +1,3 @@
-const appContainer = document.querySelector('.app-container');
-
 const createContainer = (appContainer) => {
   appContainer.classList.add('vh-100', 'w-100', 'd-flex',
       'align-items-center', 'justify-content-center', 'flex-column');
@@ -163,7 +161,6 @@ const createRow = ({task, status, importance}) => {
 };
 
 export default {
-  appContainer,
   createContainer,
   createTitle,
   createForm,

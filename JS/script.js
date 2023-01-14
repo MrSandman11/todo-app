@@ -1,8 +1,3 @@
-import createElements from './modules/createElements.js';
-const {
-  appContainer,
-} = createElements;
-
 import render from './modules/renderPage.js';
 const {
   renderPage,
@@ -35,16 +30,19 @@ document.addEventListener('DOMContentLoaded', () => {
     return person;
   };
 
-  const init = (person, appContainer) => {
+  const init = (person) => {
+    const {appContainer} = getPageElements();
+
     const {list} = renderPage(appContainer, person);
+
+    const data = getStorage(person);
+
     const {
       form,
       btnAdd,
       table,
       importance,
     } = getPageElements();
-
-    const data = getStorage(person);
 
     renderTasks(list, data);
     indexControl();
@@ -56,5 +54,5 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const person = login();
-  init(person, appContainer);
+  init(person);
 });

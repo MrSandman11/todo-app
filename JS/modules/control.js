@@ -40,7 +40,8 @@ const taskSuccessControl = (table, data, person) => {
     const target = e.target;
     if (target.closest('.btn-success')) {
       const targetTask = target.closest('.tr');
-      targetTask.classList.remove('table-light');
+      targetTask.classList.remove('table-light',
+          'table-warning', 'table-danger');
       targetTask.classList.add('table-success');
 
       const targetTaskName = targetTask.firstChild.nextSibling;
@@ -50,8 +51,8 @@ const taskSuccessControl = (table, data, person) => {
       targetTaskStatus.textContent = 'Выполнена';
 
       for (let i = data.length; i--;) {
-        if (data[i].task === targetTaskName) {
-          data[i].task = 'sucsuccess';
+        if (data[i].task === targetTaskName.textContent) {
+          data[i].status = 'sucsuccess';
         }
       }
 
