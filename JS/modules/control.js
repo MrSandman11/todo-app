@@ -33,6 +33,10 @@ const inputControl = (form, btnAdd) => {
       btnAdd.disabled = false;
     }
   });
+
+  form.addEventListener('reset', () => {
+    btnAdd.disabled = true;
+  });
 };
 
 const taskSuccessControl = (table, data, person) => {
