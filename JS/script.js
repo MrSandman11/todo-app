@@ -1,8 +1,6 @@
 import createElements from './modules/createElements.js';
 const {
   appContainer,
-  createContainer,
-  createTitle,
 } = createElements;
 
 import render from './modules/renderPage.js';
@@ -18,6 +16,7 @@ const {
   taskSuccessControl,
   taskDeleteControl,
   addTaskControl,
+  editTaskControl,
 } = control;
 
 import pageElements from './modules/getPageElements.js';
@@ -28,8 +27,6 @@ const {
 import serviceStorage from './modules/serviceStorage.js';
 const {
   getStorage,
-  setStorage,
-  removeStorage,
 } = serviceStorage;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -44,34 +41,18 @@ document.addEventListener('DOMContentLoaded', () => {
       form,
       btnAdd,
       table,
+      importance,
     } = getPageElements();
 
     const data = getStorage(person);
-    // [
-    //   {
-    //     task: 'Купить слона',
-    //     status: 'during',
-    //   },
-    //   {
-    //     task: 'Помыть кота',
-    //     status: 'sucsuccess',
-    //   },
-    //   {
-    //     task: 'Купить слона',
-    //     status: 'during',
-    //   },
-    //   {
-    //     task: 'Купить слона',
-    //     status: 'during',
-    //   },
-    // ];
 
     renderTasks(list, data);
     indexControl();
     inputControl(form, btnAdd);
     taskSuccessControl(table, data, person);
     taskDeleteControl(table, data, person);
-    addTaskControl(form, list, person, data);
+    addTaskControl(form, list, person, data, importance);
+    editTaskControl(table, data, person);
   };
 
   const person = login();

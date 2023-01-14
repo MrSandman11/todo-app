@@ -1,7 +1,6 @@
 import createElements from './createElements.js';
 
 const {
-  appContainer,
   createContainer,
   createTitle,
   createForm,

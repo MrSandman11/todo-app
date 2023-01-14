@@ -22,6 +22,16 @@ const setStatusStorage = (person, task) => {
   localStorage.setItem(person, JSON.stringify(data));
 };
 
+const renameTaskStorage = (person, task, newTask) => {
+  const data = getStorage(person);
+  for (let i = data.length; i--;) {
+    if (data[i].task === task) {
+      data[i].task = newTask;
+    }
+  }
+  localStorage.setItem(person, JSON.stringify(data));
+};
+
 const removeStorage = (person, task) => {
   const data = getStorage(person);
   const newData = data.filter(item => item.task !== task);
@@ -32,5 +42,6 @@ export default {
   getStorage,
   setStorage,
   setStatusStorage,
+  renameTaskStorage,
   removeStorage,
 };

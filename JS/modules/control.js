@@ -10,9 +10,9 @@ const {
 
 import serviceStorage from './serviceStorage.js';
 const {
-  getStorage,
   setStorage,
   setStatusStorage,
+  renameTaskStorage,
   removeStorage,
 } = serviceStorage;
 
@@ -72,7 +72,6 @@ const taskDeleteControl = (table, data, person) => {
           if (data[i].task === deletedTaskName) {
             removeStorage(person, deletedTaskName);
             data.splice(i, 1);
-            console.log(data);
           }
         }
         deletedTask.remove();
@@ -86,19 +85,48 @@ const addNewTask = (newTask, list) => {
   list.append(createRow(newTask));
 };
 
-const addTaskControl = (form, list, person, data) => {
+const addTaskControl = (form, list, person, data, importance) => {
   form.addEventListener('submit', e => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const newTask = Object.fromEntries(formData);
-    newTask.status = 'during';
-    addNewTask(newTask, list);
-    form.reset();
-    indexControl();
-    const {btnAdd} = getPageElements();
-    btnAdd.disabled = true;
-    setStorage(person, newTask);
-    data.push(newTask);
+    if (importance.value === '1' || importance.value === '2' ||
+      importance.value === '3') {
+      const formData = new FormData(e.target);
+      const newTask = Object.fromEntries(formData);
+      newTask.status = 'during';
+      newTask.importance = importance.value;
+      addNewTask(newTask, list);
+      form.reset();
+      indexControl();
+      const {btnAdd} = getPageElements();
+      btnAdd.disabled = true;
+      setStorage(person, newTask);
+      data.push(newTask);
+    } else {
+      alert('Выберите важность задачи!');
+    }
+  });
+};
+
+const editTaskControl = (table, data, person) => {
+  table.addEventListener('click', e => {
+    const target = e.target;
+    if (target.closest('.btn-secondary')) {
+      const targetTask = target.closest('.tr');
+      const targetTaskName = targetTask.firstChild.nextSibling;
+      const targetTaskPreviousName = targetTaskName.textContent;
+      targetTaskName.setAttribute('contenteditable', 'true');
+      targetTaskName.focus();
+      targetTaskName.addEventListener('blur', () => {
+        targetTaskName.setAttribute('contenteditable', 'false');
+        for (let i = data.length; i--;) {
+          if (data[i].task === targetTaskPreviousName) {
+            data[i].task = targetTaskName.textContent;
+          }
+        }
+        renameTaskStorage(person, targetTaskPreviousName,
+            targetTaskName.textContent);
+      });
+    }
   });
 };
 
@@ -108,4 +136,5 @@ export default {
   taskSuccessControl,
   taskDeleteControl,
   addTaskControl,
+  editTaskControl,
 };
